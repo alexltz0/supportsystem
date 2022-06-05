@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Roboto+Mono:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,500&family=Open+Sans:wght@300&family=Roboto+Mono:wght@300&display=swap');
+
+
+body {
+  background-color: rgb(10, 0, 36);
+}
+
+.galaxy {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  position: fixed;
+  color: white;
+  top: 32vh;
+  left: 42.5vw;
+  font-size: 150%;
+}
+
+
+.text1 {
+  position: absolute;
+  top: 20%;
+}
+
+.text2 {
+  position: absolute;
+  top: 35%;
+}
+
+.v {
+  color: rgb(146, 0, 68);
+}
+
+.logobig {
+  position: absolute;
+  width: 10%;
+  top: 38vh;
+  left: 57.5vw;
+  z-index: 2;
+}
+
+.registerbtn {
+  position: absolute;
+		top: 50%;
+    left: 20%;
+		padding: 10px;
+		width: 100px;
+		color: grey;
+		background-color: white;
+		border-radius: 7px;
+		border: none;
+}
+
+.registerbtn:hover {
+  background-color: rgb(209, 209, 209);
+}
+
+.error {
+  position: absolute;
+		top: 55%;
+    left: 32%;
+		padding: 10px;
+		width: 10%;
+		color: rgb(255, 255, 255);
+		background-color: rgb(255, 0, 0);
+		border-radius: 7px;
+		border: none;
+    z-index: 2;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
