@@ -3,5 +3,12 @@
     "name": "choose name in config.json",
     "subtitle": "choose subtitle in config.json",
     "logo": "img/logo.png"
+  },
+  "database": {
+    "host": "localhost",
+    "user": "root",
+    "password": "1234",
+    "database": "support",
+    "connectionLimit": 10
   }
 }

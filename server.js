@@ -21,6 +21,7 @@ app.use(session({
 // Load branding config
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf8'));
 const branding = config.branding;
+const dbConfig = config.database;
 
 // Make branding available in all views
 app.use((req, res, next) => {
@@ -34,21 +35,21 @@ let pool;
 async function initDatabase() {
   // Connect without database to create it if needed
   const tempConn = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '1234'
+    host: dbConfig.host,
+    user: dbConfig.user,
+    password: dbConfig.password
   });
-  await tempConn.query('CREATE DATABASE IF NOT EXISTS `support`');
+  await tempConn.query(`CREATE DATABASE IF NOT EXISTS \`${dbConfig.database}\``);
   await tempConn.end();
 
   // Create pool using the support database
   pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '1234',
-    database: 'support',
+    host: dbConfig.host,
+    user: dbConfig.user,
+    password: dbConfig.password,
+    database: dbConfig.database,
     waitForConnections: true,
-    connectionLimit: 10
+    connectionLimit: dbConfig.connectionLimit || 10
   });
 
   // Create tables
@@ -163,12 +164,24 @@ app.get('/', async (req, res) => {
   if (!user_data) return;
 
   // Personal tickets
-  const [myTickets] = await pool.query('SELECT * FROM `data` WHERE username = ?', [user_data.user_name]);
+  const [myTickets] = await pool.query('SELECT * FROM `data` WHERE username = ? ORDER BY created_at DESC', [user_data.user_name]);
   // Total ticket count
   const [totalResult] = await pool.query('SELECT COUNT(*) as total FROM `data`');
   const totalTickets = totalResult[0].total;
 
-  res.render('index', { user_data, myTickets, totalTickets });
+  // Tickets per day
+  const [ticketsPerDay] = await pool.query(
+    'SELECT DATE(created_at) as day, COUNT(*) as count FROM `data` WHERE username = ? GROUP BY DATE(created_at) ORDER BY day DESC',
+    [user_data.user_name]
+  );
+
+  // Tickets per month
+  const [ticketsPerMonth] = await pool.query(
+    "SELECT DATE_FORMAT(created_at, '%Y-%m') as month, COUNT(*) as count FROM `data` WHERE username = ? GROUP BY DATE_FORMAT(created_at, '%Y-%m') ORDER BY month DESC",
+    [user_data.user_name]
+  );
+
+  res.render('index', { user_data, myTickets, totalTickets, ticketsPerDay, ticketsPerMonth });
 });
 
 // GET /form
