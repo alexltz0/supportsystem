@@ -1,0 +1,36 @@
+/* =============================================
+   FARB-KONFIGURATION
+   Hier kannst du alle Akzentfarben anpassen.
+   Ändere einfach die Werte — der Rest passt sich automatisch an.
+   ============================================= */
+
+:root {
+  /* ---- Hauptfarben ---- */
+  --accent: #ff0079;                         /* Primäre Akzentfarbe */
+  --accent-hover: #cc0062;                   /* Akzent bei Hover (dunkler) */
+  --accent-light: #ff6fb5;                   /* Akzent hell (Gradient-Ende) */
+  --accent-glow: rgba(255, 0, 121, 0.4);    /* Glow / Schatten der Akzentfarbe */
+  --accent-soft: rgba(255, 0, 121, 0.15);   /* Sanfter Akzent-Hintergrund */
+
+  /* ---- Sekundäre Akzentfarbe (Hintergrund-Glow) ---- */
+  --accent-secondary: rgba(100, 0, 255, 0.2); /* Zweiter Glow im Hintergrund */
+
+  /* ---- Hintergrund ---- */
+  --bg-primary: #06001a;                     /* Haupt-Hintergrund */
+  --bg-secondary: #0d0629;                   /* Sekundärer Hintergrund */
+
+  /* ---- Glas-Effekte ---- */
+  --glass: rgba(255, 255, 255, 0.04);       /* Glass Card Hintergrund */
+  --glass-border: rgba(255, 255, 255, 0.08);/* Glass Card Border */
+  --glass-hover: rgba(255, 255, 255, 0.07); /* Glass Card Hover */
+
+  /* ---- Text ---- */
+  --text: #f0f0f0;                           /* Haupttext */
+  --text-secondary: rgba(255, 255, 255, 0.7);/* Sekundärer Text */
+  --text-muted: rgba(255, 255, 255, 0.45);  /* Gedämpfter Text */
+
+  /* ---- Status-Farben ---- */
+  --success: #00d26a;                        /* Erfolg / Aktiv */
+  --warning: #ffb800;                        /* Warnung */
+  --danger: #ff3b3b;                         /* Fehler / Gefahr */
+}

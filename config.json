@@ -1,0 +1,7 @@
+{
+  "branding": {
+    "name": "choose name in config.json",
+    "subtitle": "choose subtitle in config.json",
+    "logo": "img/logo.png"
+  }
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Eintragen — <%= branding.name %></title>
+  <link href="<%= branding.logo %>" rel="icon">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <!-- Topbar -->
+  <nav class="topbar">
+    <div class="topbar-brand">
+      <img src="<%= branding.logo %>" alt="<%= branding.name %>">
+      <span class="topbar-title"><%= branding.name %></span>
+    </div>
+    <div class="topbar-nav">
+      <a href="/">Dashboard</a>
+      <a href="/form" class="active">Support Eintragen</a>
+      <% if (user_data.admin == 1) { %>
+      <a href="/admin">Admin</a>
+      <% } %>
+    </div>
+    <div class="topbar-user">
+      <div class="user-avatar"><%= user_data.user_name.charAt(0).toUpperCase() %></div>
+      <span class="user-name"><%= user_data.user_name %></span>
+      <button class="btn-logout" onclick="window.location.href='/logout'">Abmelden</button>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="page-content" style="display: flex; justify-content: center;">
+
+    <div class="glass-card fade-in" style="max-width: 560px; width: 100%;">
+      <div class="section-title">
+        <div class="icon">✏️</div>
+        Neues Support-Ticket
+      </div>
+
+      <form action="/insert" method="post">
+        <div class="form-group">
+          <label class="form-label" for="user">User (Discord Tag)</label>
+          <input class="form-input" type="text" name="user" id="user" placeholder="z.B. User#1234" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="grund">Grund</label>
+          <input class="form-input" type="text" name="grund" id="grund" placeholder="Warum wurde Support benötigt?" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="ausgang">Ausgang</label>
+          <input class="form-input" type="text" name="ausgang" id="ausgang" placeholder="Wie wurde es gelöst?" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="name">Eingetragen von</label>
+          <input class="form-input" type="text" name="name" id="name" value="<%= user_data.user_name %>" readonly required>
+        </div>
+        <button class="btn btn-primary" type="submit" style="width: 100%; justify-content: center; padding: 12px; font-size: 14px; font-weight: 600; margin-top: 8px;">
+          Ticket Absenden
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>

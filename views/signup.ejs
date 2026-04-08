@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrieren — <%= branding.name %></title>
+  <link href="<%= branding.logo %>" rel="icon">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-card fade-in">
+      <div class="auth-logo">
+        <img src="<%= branding.logo %>" alt="<%= branding.name %>">
+        <h1><%= branding.name %></h1>
+      </div>
+      <p class="auth-subtitle"><%= branding.subtitle %> — Registrierung</p>
+
+      <% if (error) { %>
+        <div class="auth-error"><%= error %></div>
+      <% } %>
+
+      <form class="auth-form" method="post" action="/signup">
+        <div class="form-group">
+          <label class="form-label" for="user_name">Benutzername</label>
+          <input class="form-input" type="text" id="user_name" name="user_name" placeholder="Wähle einen Benutzernamen" required autofocus>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">E-Mail</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="Deine E-Mail Adresse">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">Passwort</label>
+          <input class="form-input" type="password" id="password" name="password" placeholder="Wähle ein Passwort" required>
+        </div>
+        <div class="auth-actions">
+          <button class="btn btn-primary" type="submit">Registrieren</button>
+        </div>
+      </form>
+
+      <div class="auth-switch">
+        Bereits registriert? <a href="/login">Anmelden</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

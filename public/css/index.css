@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Roboto+Mono:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,500&family=Open+Sans:wght@300&family=Roboto+Mono:wght@300&display=swap');
+
+
+body {
+  background-color: rgb(10, 0, 36);
+}
+
+.logout {
+  position: fixed;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  top: 3.8%;
+  right: 3%;
+  width: 6vw;
+  height: 3.5vh;
+  font-size: 100%;
+  background-color: rgb(13, 24, 80);
+  text-align: center;
+  border-radius: 5px;
+  border: none;
+}
+
+.logout:hover {
+  background-color: rgb(33, 5, 158);
+}
+
+.topbar {
+  position: fixed;
+  top: 2.5%;
+  left: 1%;
+  width: 97vw;
+  height: 6vh;
+  background: rgb(255,0,121);
+background: radial-gradient(circle, rgba(255,0,121,1) 0%, rgba(0,0,0,1) 100%);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border-radius: 10px;
+}
+
+.alex {
+  position: absolute;
+  font-family: 'Roboto Mono', monospace;
+  bottom: 0;
+  right: 1%;
+  color: rgb(255, 255, 255);
+}
+
+.logo {
+  position: fixed;
+  width: 2.5%;
+  top: 3vh;
+  left: 1.2vw;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgb(255,0 ,121);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.galaxy {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  position: fixed;
+  color: white;
+  font-size: 150%;
+  transform: translate(20%, -200%);
+}
+
+.v {
+  color: rgb(146, 3, 70);
+}
+
+::selection {
+  background-color: rgb(255, 0, 121);
+}
+
+.soon {
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  font-size: 500%;
+  color: white;
+}
+
+.eintragen {
+  position: fixed;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  top: 3.8%;
+  right: 10%;
+  width: 8vw;
+  height: 3.5vh;
+  font-size: 15px;
+  background-color: rgb(13, 24, 80);
+  text-align: center;
+  border-radius: 5px;
+  border: none;
+}
+
+.eintragen:hover {
+  background-color: rgb(33, 5, 158);
+}
+
+.box{
+
+  position: absolute;
+  background: rgb(255,0,121);
+background: radial-gradient(circle, rgba(255,0,121,1) 0%, rgba(0,0,0,1) 100%);
+  top: 15%;
+  left: 8%;
+  margin: auto;
+  width: 80%;
+  height: 70%;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.hallo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  position: fixed;
+  color: white;
+  top: 4.5vh;
+  right: 20.5vw;
+  font-size: 100%;
+}
+
+.sidebar {
+  height: 100%; 
+  width: 0; 
+  position: fixed; 
+  z-index: 1; 
+  top: 0;
+  left: 0;
+  background-color: #111; 
+  overflow-x: hidden; 
+  padding-top: 60px; 
+  transition: 0.5s; 
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  font-family: 'Montserrat', sans-serif;
+  display: block;
+  transition: 0.3s;
+}
+
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: rgba(68, 34, 34, 0);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}

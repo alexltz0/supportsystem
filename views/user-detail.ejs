@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= targetUser.user_name %> — <%= branding.name %></title>
+  <link href="<%= branding.logo %>" rel="icon">
+  <link rel="stylesheet" href="/css/app.css">
+  <style>
+    .user-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 8px;
+    }
+    .user-header .avatar-lg {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 24px;
+      color: white;
+      flex-shrink: 0;
+    }
+    .user-header .user-info h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 2px;
+    }
+    .user-header .user-info p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      transition: var(--transition);
+    }
+    .back-link:hover {
+      color: var(--accent);
+    }
+    .timeline-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 80px;
+      padding-top: 8px;
+    }
+    .timeline-bar .bar {
+      flex: 1;
+      min-width: 20px;
+      max-width: 48px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-hover));
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      transition: var(--transition);
+      cursor: default;
+    }
+    .timeline-bar .bar:hover {
+      opacity: 0.8;
+    }
+    .timeline-bar .bar .bar-tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-secondary);
+      border: 1px solid var(--glass-border);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--text);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .timeline-bar .bar:hover .bar-tooltip {
+      opacity: 1;
+    }
+    .timeline-labels {
+      display: flex;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .timeline-labels span {
+      flex: 1;
+      min-width: 20px;
+      max-width: 48px;
+      text-align: center;
+      font-size: 10px;
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <nav class="topbar">
+    <div class="topbar-brand">
+      <img src="/<%= branding.logo %>" alt="<%= branding.name %>">
+      <span class="topbar-title"><%= branding.name %></span>
+    </div>
+    <div class="topbar-nav">
+      <a href="/">Dashboard</a>
+      <a href="/form">Support Eintragen</a>
+      <a href="/admin" class="active">Admin</a>
+    </div>
+    <div class="topbar-user">
+      <div class="user-avatar"><%= user_data.user_name.charAt(0).toUpperCase() %></div>
+      <span class="user-name"><%= user_data.user_name %></span>
+      <button class="btn-logout" onclick="window.location.href='/logout'">Abmelden</button>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="page-content">
+
+    <a href="/admin" class="back-link">← Zurück zum Admin Panel</a>
+
+    <!-- User Header -->
+    <div class="glass-card fade-in">
+      <div class="user-header">
+        <div class="avatar-lg"><%= targetUser.user_name.charAt(0).toUpperCase() %></div>
+        <div class="user-info">
+          <h1><%= targetUser.user_name %></h1>
+          <p>
+            <%= targetUser.email || 'Keine E-Mail' %> ·
+            <% if (targetUser.access == 1) { %>
+              <span class="badge badge-success" style="font-size: 11px;"><span class="badge-dot"></span> Aktiv</span>
+            <% } else { %>
+              <span class="badge badge-danger" style="font-size: 11px;"><span class="badge-dot"></span> Gesperrt</span>
+            <% } %>
+            <% if (targetUser.admin == 1) { %>
+              · <span class="badge badge-warning" style="font-size: 11px;">Admin</span>
+            <% } %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="stat-grid fade-in fade-in-delay-1">
+      <div class="stat-card">
+        <div class="stat-label">Tickets Gesamt</div>
+        <div class="stat-value"><%= totalTickets %></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Aktive Tage</div>
+        <div class="stat-value"><%= ticketsPerDay.length %></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Aktive Monate</div>
+        <div class="stat-value"><%= ticketsPerMonth.length %></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Ø Tickets / Tag</div>
+        <div class="stat-value"><%= ticketsPerDay.length > 0 ? (totalTickets / ticketsPerDay.length).toFixed(1) : '0' %></div>
+      </div>
+    </div>
+
+    <!-- Tickets pro Tag (Balkendiagramm) -->
+    <% if (ticketsPerDay.length > 0) { %>
+    <div class="glass-card fade-in fade-in-delay-2">
+      <div class="section-title">
+        <div class="icon">📊</div>
+        Tickets pro Tag
+      </div>
+      <% const maxDay = Math.max(...ticketsPerDay.map(d => d.count)); %>
+      <% const recentDays = ticketsPerDay.slice(0, 30); %>
+      <div class="timeline-bar">
+        <% recentDays.slice().reverse().forEach(function(d) { %>
+          <div class="bar" style="height: <%= Math.max((d.count / maxDay) * 100, 8) %>%;">
+            <div class="bar-tooltip"><%= d.day ? new Date(d.day).toLocaleDateString('de-DE') : '—' %>: <%= d.count %></div>
+          </div>
+        <% }); %>
+      </div>
+      <div class="timeline-labels">
+        <% recentDays.slice().reverse().forEach(function(d) { %>
+          <span><%= d.day ? new Date(d.day).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }) : '' %></span>
+        <% }); %>
+      </div>
+      <% if (ticketsPerDay.length > 30) { %>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">Zeigt die letzten 30 Tage mit Aktivität</p>
+      <% } %>
+    </div>
+    <% } %>
+
+    <!-- Tickets pro Monat -->
+    <% if (ticketsPerMonth.length > 0) { %>
+    <div class="glass-card fade-in fade-in-delay-3">
+      <div class="section-title">
+        <div class="icon">📅</div>
+        Tickets pro Monat
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Monat</th>
+            <th>Anzahl</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% ticketsPerMonth.forEach(function(m) { %>
+          <tr>
+            <td><%= m.month %></td>
+            <td><span style="font-weight: 600; color: var(--accent);"><%= m.count %></span></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <% } %>
+
+    <!-- Alle Tickets dieses Users -->
+    <div class="glass-card fade-in fade-in-delay-4">
+      <div class="section-title">
+        <div class="icon">📋</div>
+        Alle Tickets von <%= targetUser.user_name %>
+      </div>
+      <% if (userTickets.length > 0) { %>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>User (Discord)</th>
+            <th>Grund</th>
+            <th>Ausgang</th>
+            <th>Datum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% userTickets.forEach(function(t, i) { %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= t.user %></td>
+            <td><%= t.grund %></td>
+            <td><%= t.ausgang %></td>
+            <td style="white-space: nowrap; color: var(--text-muted);">
+              <%= t.created_at ? new Date(t.created_at).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—' %>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <p>Dieser Benutzer hat noch keine Tickets eingetragen.</p>
+      </div>
+      <% } %>
+    </div>
+
+  </div>
+
+</body>
+</html>

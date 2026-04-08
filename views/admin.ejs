@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — <%= branding.name %></title>
+  <link href="<%= branding.logo %>" rel="icon">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <!-- Topbar -->
+  <nav class="topbar">
+    <div class="topbar-brand">
+      <img src="<%= branding.logo %>" alt="<%= branding.name %>">
+      <span class="topbar-title"><%= branding.name %></span>
+    </div>
+    <div class="topbar-nav">
+      <a href="/">Dashboard</a>
+      <a href="/form">Support Eintragen</a>
+      <a href="/admin" class="active">Admin</a>
+    </div>
+    <div class="topbar-user">
+      <div class="user-avatar"><%= user_data.user_name.charAt(0).toUpperCase() %></div>
+      <span class="user-name"><%= user_data.user_name %></span>
+      <button class="btn-logout" onclick="window.location.href='/logout'">Abmelden</button>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="page-content">
+
+    <!-- ===== Benutzerverwaltung ===== -->
+    <div class="glass-card fade-in">
+      <div class="section-title">
+        <div class="icon">👥</div>
+        Benutzerverwaltung
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Benutzername</th>
+            <th>E-Mail</th>
+            <th>Status</th>
+            <th>Admin</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(function(u) { %>
+          <tr>
+            <td style="font-weight: 500;"><a href="/admin/user/<%= u.user_id %>" style="color: var(--accent); text-decoration: none; border-bottom: 1px dashed var(--accent-glow); transition: var(--transition);"><%= u.user_name %></a></td>
+            <td><%= u.email || '—' %></td>
+            <td>
+              <% if (u.access == 1) { %>
+                <span class="badge badge-success"><span class="badge-dot"></span> Aktiv</span>
+              <% } else { %>
+                <span class="badge badge-danger"><span class="badge-dot"></span> Gesperrt</span>
+              <% } %>
+            </td>
+            <td>
+              <% if (u.admin == 1) { %>
+                <span class="badge badge-warning">Admin</span>
+              <% } else { %>
+                <span style="color: var(--text-muted);">—</span>
+              <% } %>
+            </td>
+            <td>
+              <div class="action-group">
+                <% if (u.access == 0) { %>
+                <form action="/admin/activate" method="post">
+                  <input type="hidden" name="user_id" value="<%= u.user_id %>">
+                  <button class="btn btn-success" type="submit">Freischalten</button>
+                </form>
+                <% } else { %>
+                <form action="/admin/deactivate" method="post">
+                  <input type="hidden" name="user_id" value="<%= u.user_id %>">
+                  <button class="btn btn-warning" type="submit">Sperren</button>
+                </form>
+                <% } %>
+                <form action="/admin/delete" method="post" onsubmit="return confirm('Benutzer wirklich löschen?');">
+                  <input type="hidden" name="user_id" value="<%= u.user_id %>">
+                  <button class="btn btn-danger" type="submit">Löschen</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ===== Alle Tickets ===== -->
+    <div class="glass-card fade-in fade-in-delay-1">
+      <div class="section-title">
+        <div class="icon">📋</div>
+        Alle Tickets
+      </div>
+      <% if (tickets.length > 0) { %>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Eingetragen von</th>
+            <th>User (Discord)</th>
+            <th>Grund</th>
+            <th>Ausgang</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% tickets.forEach(function(t, i) { %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td style="font-weight: 500; color: var(--text);"><%= t.username %></td>
+            <td><%= t.user %></td>
+            <td><%= t.grund %></td>
+            <td><%= t.ausgang %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <p>Noch keine Tickets vorhanden.</p>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- ===== Tickets pro Benutzer ===== -->
+    <div class="glass-card fade-in fade-in-delay-2">
+      <div class="section-title">
+        <div class="icon">📊</div>
+        Tickets pro Benutzer
+      </div>
+      <% if (ticketCounts.length > 0) { %>
+      <div class="chip-grid">
+        <% ticketCounts.forEach(function(tc) { %>
+          <div class="chip">
+            <%= tc.username %> <span class="chip-count"><%= tc.count %></span>
+          </div>
+        <% }); %>
+      </div>
+      <% } else { %>
+      <div class="empty-state">
+        <div class="empty-icon">📊</div>
+        <p>Noch keine Daten vorhanden.</p>
+      </div>
+      <% } %>
+    </div>
+
+  </div>
+
+</body>
+</html>

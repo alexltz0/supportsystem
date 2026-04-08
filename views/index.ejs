@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — <%= branding.name %></title>
+  <link href="<%= branding.logo %>" rel="icon">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <!-- Topbar -->
+  <nav class="topbar">
+    <div class="topbar-brand">
+      <img src="<%= branding.logo %>" alt="<%= branding.name %>">
+      <span class="topbar-title"><%= branding.name %></span>
+    </div>
+    <div class="topbar-nav">
+      <a href="/" class="active">Dashboard</a>
+      <a href="/form">Support Eintragen</a>
+      <% if (user_data.admin == 1) { %>
+      <a href="/admin">Admin</a>
+      <% } %>
+    </div>
+    <div class="topbar-user">
+      <div class="user-avatar"><%= user_data.user_name.charAt(0).toUpperCase() %></div>
+      <span class="user-name"><%= user_data.user_name %></span>
+      <button class="btn-logout" onclick="window.location.href='/logout'">Abmelden</button>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="page-content">
+
+    <!-- Stat Cards -->
+    <div class="stat-grid fade-in">
+      <div class="stat-card">
+        <div class="stat-label">Meine Tickets</div>
+        <div class="stat-value"><%= myTickets.length %></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Tickets Gesamt</div>
+        <div class="stat-value"><%= totalTickets %></div>
+      </div>
+    </div>
+
+    <!-- My Tickets Table -->
+    <div class="glass-card fade-in fade-in-delay-1">
+      <div class="section-title">
+        <div class="icon">📋</div>
+        Meine Tickets
+      </div>
+
+      <% if (myTickets.length > 0) { %>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>User (Discord)</th>
+            <th>Grund</th>
+            <th>Ausgang</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% myTickets.forEach(function(ticket, i) { %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= ticket.user %></td>
+            <td><%= ticket.grund %></td>
+            <td><%= ticket.ausgang %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <p>Du hast noch keine Tickets eingetragen.</p>
+      </div>
+      <% } %>
+    </div>
+
+  </div>
+
+</body>
+</html>
